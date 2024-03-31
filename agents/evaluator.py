@@ -16,8 +16,8 @@ class Evaluator:
           "content": f"""
           Grader 1 evaluation: '{grader1_response}'.
           Grader 2 evaluation: '{grader2_response}'.
-          Your job is to compare the evaluations from Grader 1 and Grader 2. If their evaluations on whether the rubric component is satisfied (YES), not satisfied (NO) or partially satisfied (PARTIAL) are in agreement with each other, then provide their consensus evaluation and say that they agree by evaluating gradersAgree as TRUE.
-          However, if the two graders disagree in their evaluations (one says YES and the other says NO, or one says PARTIAL and the other says either YES or NO), then evaluate gradersAgree as FALSE and say 'No consensus reached' for consensesEvaluation.
+          Your job is to compare the evaluations from Grader 1 and Grader 2. If their evaluations on whether the rubric component is satisfied (YES), not satisfied (NO) or partially satisfied (PARTIAL) are in agreement with each other, then provide their consensus evaluation and say that they agree by evaluating gradersAgree as TRUE. If the two graders still reach the same conclusions for different reasons, return true for gradersAgree.
+          However, if the two graders disagree in their evaluations (one says YES and the other says NO, or one says PARTIAL and the other says either YES or NO), then evaluate gradersAgree as FALSE and say 'No consensus reached' for consensusEvaluation.
           Return your evaluation in JSON format with the following keys:
           'gradersAgree' : <true/false>
           'consensusEvaluation': <'Yes'/'No'/'Partial'/'No consensus reached'>
