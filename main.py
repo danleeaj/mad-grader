@@ -23,10 +23,17 @@ Many transgender men choose to take testosterone as part of their gender transit
 """
 
 while not consensus:
+
     grader1_argument = grader1.grade(rubric_component, student_response, context=context)
-    grader2_argument = grader2.grade(rubric_component, student_response, context=context)
     print(grader1_argument)
+
+    grader2_argument = grader2.grade(rubric_component, student_response, context=context)
     print(grader2_argument)
+
     evaluation = evaluator.evaluate(grader1_argument, grader2_argument)
     print(evaluation)
+
     consensus = True if evaluation['gradersAgree'] == True else False
+
+    grader1.add_argument(grader2_argument)
+    grader2.add_argument(grader1_argument)
