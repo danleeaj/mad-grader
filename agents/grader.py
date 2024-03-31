@@ -25,13 +25,21 @@ class Grader:
         """}
       ]
 
-      completion = self.client.chat.completions.create(
-        model=self.model_name, 
-        response_format={"type": "json_object"},
-        messages = message
-      )
-
-      response = json.loads(completion.choices[0].message.content)
+      try:
+        completion = self.client.chat.completions.create(
+          model=self.model_name, 
+          response_format={"type": "json_object"},
+          messages = message
+        )
+        response = json.loads(completion.choices[0].message.content)
+      except openai.APIConnectionError as e:
+        print("Server could not be reached.")
+        print(e.__cause__)
+      except openai.RateLimitError as e:
+        print("Too many requests.")
+      except openai.APIStatusError as e:
+        print(f"{e.status_code} Error.")
+        print(e.response)
       
       return response
 
