@@ -1,14 +1,16 @@
 from .agent import Agent
 
+from utils import Model
+
 class Grader(Agent):
 		
-	def __init__(self, model_name: str="gpt-3.5-turbo-0125"):
-		super().__init__(model_name)
+	def __init__(self):
+		super().__init__()
 		self.count = 0
 	
-	def evaluate(self):
+	def evaluate(self, model: Model):
 		self.count += 1
-		return super().evaluate()
+		return super().evaluate(model)
 	
 	def setup_message(self, rubric_component: str, student_response: str, context: str=None):
 		initial_message = [

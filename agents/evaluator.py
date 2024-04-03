@@ -1,8 +1,8 @@
 from .agent import Agent
 
 class Evaluator(Agent):
-	def __init__(self, model_name: str="gpt-3.5-turbo-0125"):
-		super().__init__(model_name)
+	def __init__(self):
+		super().__init__()
 	
 	def setup_message(self, grader1_response, grader2_response):
 		initial_message = [

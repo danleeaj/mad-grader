@@ -1,6 +1,8 @@
 from agents.grader import Grader
 from agents.evaluator import Evaluator
 
+from utils import Model
+
 grader1 = Grader()
 grader2 = Grader()
 
@@ -18,11 +20,15 @@ rubric_component = "No setpoint for insulin / levels vary"
 student_response = "No because there is no setpoint for insulin levels. Typically, levels of insulin rise and fall depending on when and what one has eaten and one’s blood sugar level instead of staying at a fixed level."
 
 grader1.setup_message(rubric_component, student_response, context)
-grader1_argument = grader1.evaluate()
+grader1_argument = grader1.evaluate(Model.GPT)
 print(grader1_argument)
 
-evaluator.setup_message(grader1_argument, grader1_argument)
-evaluator_argument = evaluator.evaluate()
+grader2.setup_message(rubric_component, student_response, context)
+grader2_argument = grader2.evaluate(Model.CLAUDE)
+print(grader2_argument)
+
+evaluator.setup_message(grader1_argument, grader2_argument)
+evaluator_argument = evaluator.evaluate(Model.GPT)
 print(evaluator_argument)
 
 # while not consensus:
