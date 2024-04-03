@@ -4,7 +4,16 @@ class Evaluator(Agent):
 	def __init__(self):
 		super().__init__()
 	
-	def setup_message(self, grader1_response, grader2_response):
+	def setup_message(self, grader1_response: str, grader2_response: str):
+		"""Updates message array prior to API query to add initial system and user queries.
+
+		Args:
+			grader1_response: The response from the first grader.
+			grader2_response: The response form the other grader.
+
+		Returns:
+			nil
+		"""
 		initial_message = [
 			{"role": "system",
 			"content": "You are a grading judge. Your task is to evaluate the grading responses from two grading agents to determine if they agree on whether a rubric component is satisfied by the student response. You will provide your evaluation in JSON format."},

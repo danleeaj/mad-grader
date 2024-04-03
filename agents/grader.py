@@ -13,6 +13,16 @@ class Grader(Agent):
 		return super().evaluate(model)
 	
 	def setup_message(self, rubric_component: str, student_response: str, context: str=None):
+		"""Updates message array prior to API query to add initial system and user queries.
+
+		Args:
+			rubric_component: The rubric component that the grader's evaluation should be based on.
+			student_response: The response from the student that the grader should grade.
+			context: The context of the question, such as the question itself, or important points that should be clarified for the grader.
+
+		Returns:
+			nil
+		"""
 		initial_message = [
 			{"role": "system",
 			"content": f"You are a biology grading assistant. Your task is to evaluate student responses to determine if the rubric component is satisfied{', taking into account the information provided to the student in the context section' if context else ''}. You will provide your evaluation in JSON format."},
@@ -30,7 +40,15 @@ class Grader(Agent):
 		for dialog in initial_message:
 			self.message.append(dialog)
 
-	def add_argument(self, argument):
+	def add_argument(self, argument: str):
+		"""Updates message array to inform the grader of the response made by the other grader.
+
+		Args:
+			argument: The argument made by the opposing grader that the grader should take into consideration before revaluating its evaluation.
+		
+		Returns:
+			nil
+		"""
 		message = [
 			{"role": "user",
 			"content": argument}

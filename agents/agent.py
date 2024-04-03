@@ -8,11 +8,11 @@ class Agent:
 	def __init__(self):
 		self.message = []
 
-	def update_message(self, m):
+	def update_message(self, m: str):
 		"""Updates message to keep track of the entire conversation.
 
 		Args:
-		m -- the message intended to be added to the conversation history.
+			m: the message intended to be added to the conversation history.
 		"""
 		for dialog in m:
 			self.message.append(dialog)
