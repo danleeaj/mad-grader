@@ -3,6 +3,9 @@ from enum import Enum
 from openai import OpenAI
 import openai
 
+import anthropic
+from anthropic import _exceptions
+
 import json
 
 # TODO: Add enum for different models.
@@ -45,7 +48,22 @@ def query(model: Model, message: str):
             return response
 
         case "CLAUDE":
-            print("CLAUDE")
+            
+            client = anthropic.Anthropic()
+
+            try:
+                completion = client.messages.create(
+                    model = model_name,
+                    max_tokens = 1000,
+                    temperature = 0.0,
+                    system = message[0]['content'],
+                    messages = message[1:]
+                )
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+            else:
+                return completion.content[0].text
+
         case "GEMINI":
             print("GEMINI")
         case _:
