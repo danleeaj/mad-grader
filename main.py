@@ -28,7 +28,7 @@ grader2_argument = grader2.evaluate(Model.CLAUDE)
 print(grader2_argument)
 
 evaluator.setup_message(grader1_argument, grader2_argument)
-evaluator_argument = evaluator.evaluate(Model.GPT)
+evaluator_argument = evaluator.evaluate(Model.CLAUDE)
 print(evaluator_argument)
 
 # while not consensus:

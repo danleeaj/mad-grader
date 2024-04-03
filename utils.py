@@ -62,7 +62,7 @@ def query(model: Model, message: str):
             except Exception as e:
                 print(f"Unexpected error: {e}")
             else:
-                return completion.content[0].text
+                return json.loads(completion.content[0].text)
 
         case "GEMINI":
             print("GEMINI")

@@ -25,7 +25,3 @@ class Evaluator(Agent):
 			"""}
 		]
 		super().update_message(initial_message)
-
-
-
-

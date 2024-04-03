@@ -1,7 +1,5 @@
 from utils import Model, query
 
-import json
-
 # TODO: Make sure that the request is also added to the message history.
 # TODO: Implement support for multiple models (use enum)
 
