@@ -1,5 +1,8 @@
-from openai import OpenAI
+from utils import Model, query
+
 import openai
+from openai import OpenAI
+
 import json
 
 # TODO: Make sure that the request is also added to the message history.
@@ -27,23 +30,9 @@ class Agent:
 		Args:
 		nil
 		"""
-		try:
-			completion = self.client.chat.completions.create(
-				model=self.model_name, 
-				response_format={"type": "json_object"},
-				messages = self.message
-			)
-			response = json.loads(completion.choices[0].message.content)
-			
-		except openai.APIConnectionError as e:
-			print("Server could not be reached.")
-			print(e.__cause__)
-		except openai.RateLimitError as e:
-			print("Too many requests.")
-		except openai.APIStatusError as e:
-			print(f"{e.status_code} Error.")
-			print(e.response)
-		
+
+		response = query(Model.GPT, self.message)
+
 		self.message.append({
 			"role": "assistant", 
 			"content" : response
