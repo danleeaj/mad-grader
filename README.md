@@ -4,8 +4,8 @@ Source code for multi-agent debate implementation in the context of auto-grading
 
 #### Requirements
 
-* Python 3.10+
-* Packages:
-*   openai
-*   anthropic
-*   google
+- Python 3.10+
+- Packages:
+    - openai
+    - anthropic
+    - google
