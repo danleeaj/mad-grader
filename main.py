@@ -9,31 +9,39 @@ evaluator = Evaluator()
 consensus = False
 rounds = 0
 
-rubric_component = "Testosterone suppresses LH production, GnRH production, hypothalamic function or anterior pituitary function."
-
-student_response = "Her LH levels would decrease because of testosterone would stop the positive feedback caused by "
-
 context = """
-Many transgender men choose to take testosterone as part of their gender transition. You are a doctor who is supervising the medical treatment of a particular individual who wants to start taking testosterone. This is what you know so far:
-
-- The patient is an adult with **typically functioning ovaries and uterus**.
-- For now, the patient will **not** have any surgeries, and the **only** medication taken is the testosterone.
-- The patient will be given high levels of testosterone, as compared to typical levels in cisgender (non-transgender) women.
-- In people with ovaries, the hypothalamus and anterior pituitary have testosterone receptors. The amount of testosterone given to the patient will be high enough to make the hypothalamus and the anterior pituitary change their hormone secretion in the same way as these structures would respond to high levels of testosterone in cisgender men.
+In a healthy person without diabetes, are insulin levels regulated homeostatically? (Note: we are referring to levels of the hormone insulin, not to blood sugar levels.) Refer to at least one element of the homeostatic circuit to justify your response.
 """
 
-while not consensus:
+rubric_component = "No setpoint for insulin / levels vary"
 
-    grader1_argument = grader1.grade(rubric_component, student_response, context=context)
-    print(grader1_argument)
+student_response = "No because there is no setpoint for insulin levels. Typically, levels of insulin rise and fall depending on when and what one has eaten and one’s blood sugar level instead of staying at a fixed level."
 
-    grader2_argument = grader2.grade(rubric_component, student_response, context=context)
-    print(grader2_argument)
+grader1.setup_message(rubric_component, student_response, context)
+grader1_argument = grader1.evaluate()
+print(grader1_argument)
 
-    evaluation = evaluator.evaluate(grader1_argument, grader2_argument)
-    print(evaluation)
+evaluator.setup_message(grader1_argument, grader1_argument)
+evaluator_argument = evaluator.evaluate()
+print(evaluator_argument)
 
-    consensus = True if evaluation['gradersAgree'] == True else False
+# while not consensus:
 
-    grader1.add_argument(grader2_argument)
-    grader2.add_argument(grader1_argument)
+#     grader1.setup_message(rubric_component, student_response, context)
+#     grader1_argument = grader1.grade()
+#     print(grader1_argument)
+
+#     grader1_argument = grader1.grade(rubric_component, student_response, context)
+#     print(grader1_argument)
+
+#     grader2_argument = grader2.grade(rubric_component, student_response, context=context)
+#     print(grader2_argument)
+
+#     evaluation = evaluator.evaluate(grader1_argument, grader2_argument)
+#     print(evaluation)
+
+#     consensus = True if evaluation['gradersAgree'] == True else False
+
+#     grader1.add_argument(grader2_argument)
+#     grader2.add_argument(grader1_argument)
+
