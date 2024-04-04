@@ -1,4 +1,5 @@
 from .agent import Agent
+import sys
 
 class Evaluator(Agent):
 	def __init__(self, model):
@@ -13,7 +14,15 @@ class Evaluator(Agent):
 				"consensusEvaluation": <'Yes'/'No'/'No consensus reached'>
 				"explanation": <String explaining why the previous evaluations were given> 
 		"""
-		return super().evaluate()
+
+		response = super().evaluate()
+
+		self.message.append({
+			"role": "assistant", 
+			"content" : response
+		})
+
+		return response
 	
 	def setup_message(self, grader1_response: str, grader2_response: str):
 		"""Updates message array prior to API query to add initial system and user queries.

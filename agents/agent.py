@@ -1,5 +1,7 @@
 from utils import Model, query
 
+import sys
+
 # TODO: Make sure that the request is also added to the message history.
 # TODO: Implement support for multiple models (use enum)
 
@@ -44,10 +46,5 @@ class Agent:
 		"""
 
 		response = query(self.model, self.message)
-
-		self.message.append({
-			"role": "assistant", 
-			"content" : f"{response}"
-		})
 		
 		return response

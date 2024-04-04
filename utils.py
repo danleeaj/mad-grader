@@ -66,7 +66,7 @@ def query(model: Model, message: str):
             except Exception as e:
                 print(f"Unexpected error: {e}")
                 sys.exit()
-            
+                        
             response = json.loads(completion.content[0].text)
             return response
 

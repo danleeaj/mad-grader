@@ -1,4 +1,5 @@
 from .agent import Agent
+import sys
 
 class Grader(Agent):
 		
@@ -14,8 +15,31 @@ class Grader(Agent):
 				"rubricComponentSatisfied": <'Yes'/'No'>, 
 				"explanation": <String explaining why the previous evaluation was given> 
 		"""
+
+		response = super().evaluate()
+
 		self.count += 1
-		return super().evaluate()
+
+		try:
+			rubricComponentSatisfied = response['rubricComponentSatisfied']
+			explanation = response['explanation']
+			if not rubricComponentSatisfied or not explanation:
+				raise ValueError
+		except KeyError:
+			print("JSON not formatted correctly. Ensure that both 'rubricComponentSatisfied' and 'explanation' are keys.")
+			print(response)
+			sys.exit()
+		except ValueError:
+			print("Corresponding key values are empty. Ensure that both keys have corresponding values.")
+			print(response)
+			sys.exit()
+
+		self.message.append({
+			"role": "assistant", 
+			"content" : f"My verdict is {rubricComponentSatisfied}. This is because {explanation}"
+		})
+
+		return response
 	
 	def setup_message(self, rubric_component: str, student_response: str, context: str=None):
 		"""Updates message array prior to API query to add initial system and user queries.
