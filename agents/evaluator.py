@@ -15,7 +15,7 @@ class Evaluator(Agent):
 				"explanation": <String explaining why the previous evaluations were given> 
 		"""
 
-		print(self.message)
+		# print(self.message)
 
 		response = super().evaluate()
 

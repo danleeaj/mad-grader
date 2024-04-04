@@ -29,7 +29,8 @@ def debate(rubric_component, student_response, context: str = None):
 
     print(f"GRADER 1 ARGUMENT -------- \n\n{grader1_argument} \n\nGRADER 2 ARGUMENT -------- \n\n{grader2_argument} \n\nEVALUATION --------------- \n\n{evaluator_argument} \n\n")
 
-    while not evaluator_argument['gradersAgree']:
+    # while not evaluator_argument['gradersAgree']:
+    while not grader1_argument['rubricComponentSatisfied'] == grader2_argument['rubricComponentSatisfied']:
 
         grader1.add_argument(grader2_argument)
         grader2.add_argument(grader1_argument)

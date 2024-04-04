@@ -32,7 +32,7 @@ def query(model: Model, message: str):
                     response_format = {"type": "json_object"},
                     messages = message
                 )
-                print("----------", completion, "----------", sep="\n")
+                # print("----------", completion, "----------", sep="\n")
                 response = json.loads(completion.choices[0].message.content)
                 
             except openai.APIConnectionError as e:
@@ -61,7 +61,7 @@ def query(model: Model, message: str):
                     system = message[0]['content'],
                     messages = message[1:]
                 )
-                print("----------", completion, "----------", sep="\n")
+                # print("----------", completion, "----------", sep="\n")
             except Exception as e:
                 print(f"Unexpected error: {e}")
                 sys.exit()

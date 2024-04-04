@@ -27,11 +27,11 @@ class Grader(Agent):
 				raise ValueError
 		except KeyError:
 			print("JSON not formatted correctly. Ensure that both 'rubricComponentSatisfied' and 'explanation' are keys.")
-			print(response)
+			# print(response)
 			sys.exit()
 		except ValueError:
 			print("Corresponding key values are empty. Ensure that both keys have corresponding values.")
-			print(response)
+			# print(response)
 			sys.exit()
 
 		self.message.append({

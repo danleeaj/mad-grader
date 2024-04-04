@@ -1,7 +1,5 @@
 from utils import Model, query
 
-import sys
-
 # TODO: Make sure that the request is also added to the message history.
 # TODO: Implement support for multiple models (use enum)
 
@@ -12,11 +10,13 @@ class Agent:
 		
 	message (array(str)): An array of dialoges. Each dialoge contains information about the role of the sender (either 'user' or 'assistant', which is the agent itself) and the content of the message as a key-value pair.
 
+	model (Model): A enum type that identifies what model should be used.
+
 	#### Methods
 
 	update_message (array(str)) -> None: Takes an array of message(s) and adds it to the message attribute so the most updated dialogue history can be passed in every query.
 
-	evaluate (Model) -> str: Makes an API call to the respective LLM, as specified by the argument, and appends the response to the message history.
+	evaluate -> str: Makes an API call to the respective LLM, as specified by the argument.
 	"""
 
 	def __init__(self, model: Model):
