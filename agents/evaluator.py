@@ -15,6 +15,8 @@ class Evaluator(Agent):
 				"explanation": <String explaining why the previous evaluations were given> 
 		"""
 
+		print(self.message)
+
 		response = super().evaluate()
 
 		self.message.append({
@@ -34,6 +36,9 @@ class Evaluator(Agent):
 		Returns:
 			nil
 		"""
+
+		self.message = []
+
 		initial_message = [
 			{"role": "system",
 			"content": "You are a grading judge. Your task is to evaluate the grading responses from two grading agents to determine if they agree on whether a rubric component is satisfied by the student response. You will provide your evaluation in JSON format."},
