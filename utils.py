@@ -16,7 +16,6 @@ class Model(Enum):
     CLAUDE = "claude-3-haiku-20240307"
 
 # TODO: Implement better error handling for the functions that call query() to catch.
-# TODO: For some reason, sometimes the JSON returned by Claude has key values enclosed in single quotes, which the json library cannot parse. I tried clarifying that it should return in double quotes, but it's not consistent.
     
 def query(model: Model, message: str):
 
