@@ -3,51 +3,44 @@ from agents.evaluator import Evaluator
 
 from utils import Model
 
-grader1 = Grader()
-grader2 = Grader()
-
-evaluator = Evaluator()
-
-consensus = False
-rounds = 0
-
 context = """
 In a healthy person without diabetes, are insulin levels regulated homeostatically? (Note: we are referring to levels of the hormone insulin, not to blood sugar levels.) Refer to at least one element of the homeostatic circuit to justify your response.
 """
 
-rubric_component = "No setpoint for insulin / levels vary"
+# rubric_component = "No setpoint for insulin / levels vary"
+
+rubric_component = "Mentioning any element of the homeostatic circuit (setpoint, sensor, control center, effector)"
 
 student_response = "No because there is no setpoint for insulin levels. Typically, levels of insulin rise and fall depending on when and what one has eaten and one’s blood sugar level instead of staying at a fixed level."
 
-grader1.setup_message(rubric_component, student_response, context)
-grader1_argument = grader1.evaluate(Model.GPT)
-print(grader1_argument)
+def debate(rubric_component, student_response, context: str = None):
+    
+    grader1 = Grader(Model.GPT)
+    grader2 = Grader(Model.CLAUDE)
+    evaluator = Evaluator(Model.CLAUDE)
+    
+    grader1.setup_message(rubric_component, student_response, context)
+    grader1_argument = grader1.evaluate()
+    grader2.setup_message(rubric_component, student_response, context)
+    grader2_argument = grader2.evaluate()
 
-grader2.setup_message(rubric_component, student_response, context)
-grader2_argument = grader2.evaluate(Model.CLAUDE)
-print(grader2_argument)
+    evaluator.setup_message(grader1_argument, grader2_argument)
+    evaluator_argument = evaluator.evaluate()
 
-evaluator.setup_message(grader1_argument, grader2_argument)
-evaluator_argument = evaluator.evaluate(Model.CLAUDE)
-print(evaluator_argument)
+    print(f"GRADER 1 ARGUMENT -------- \n\n{grader1_argument} \n\nGRADER 2 ARGUMENT -------- \n\n{grader2_argument} \n\nEVALUATION --------------- \n\n{evaluator_argument} \n\n")
 
-# while not consensus:
+    while not evaluator_argument['gradersAgree']:
 
-#     grader1.setup_message(rubric_component, student_response, context)
-#     grader1_argument = grader1.grade()
-#     print(grader1_argument)
+        grader1.add_argument(grader2_argument)
+        grader2.add_argument(grader1_argument)
+        grader1_argument = grader1.evaluate()
+        grader2_argument = grader2.evaluate()
 
-#     grader1_argument = grader1.grade(rubric_component, student_response, context)
-#     print(grader1_argument)
+        evaluator.setup_message(grader1_argument, grader2_argument)
+        evaluator_argument = evaluator.evaluate()
 
-#     grader2_argument = grader2.grade(rubric_component, student_response, context=context)
-#     print(grader2_argument)
+        print(f"GRADER 1 ARGUMENT -------- \n{grader1_argument} \n\nGRADER 2 ARGUMENT -------- \n{grader2_argument} \n\nEVALUATION --------------- \n{evaluator_argument} \n\n")
+    
+    print("FINISH ------------------")
 
-#     evaluation = evaluator.evaluate(grader1_argument, grader2_argument)
-#     print(evaluation)
-
-#     consensus = True if evaluation['gradersAgree'] == True else False
-
-#     grader1.add_argument(grader2_argument)
-#     grader2.add_argument(grader1_argument)
-
+debate(rubric_component, student_response, context)

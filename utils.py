@@ -1,5 +1,7 @@
 from enum import Enum
 
+import sys
+
 from openai import OpenAI
 import openai
 
@@ -8,16 +10,13 @@ from anthropic import _exceptions
 
 import json
 
-# TODO: Add enum for different models.
-
 class Model(Enum):
     GPT = "gpt-3.5-turbo-0125"
     GEMINI = "gemini-pro"
     CLAUDE = "claude-3-haiku-20240307"
 
-# TODO: Error handling -> invalid model results in AttributeError
-
-# TODO: Implement support for multiple models.
+# TODO: Implement better error handling for the functions that call query() to catch.
+# TODO: For some reason, sometimes the JSON returned by Claude has key values enclosed in single quotes, which the json library cannot parse. I tried clarifying that it should return in double quotes, but it's not consistent.
     
 def query(model: Model, message: str):
 
@@ -34,16 +33,20 @@ def query(model: Model, message: str):
                     response_format = {"type": "json_object"},
                     messages = message
                 )
+                print("----------", completion, "----------", sep="\n")
                 response = json.loads(completion.choices[0].message.content)
                 
             except openai.APIConnectionError as e:
                 print("Server could not be reached.")
                 print(e.__cause__)
+                sys.exit()
             except openai.RateLimitError as e:
                 print("Too many requests.")
+                sys.exit()
             except openai.APIStatusError as e:
                 print(f"{e.status_code} Error.")
                 print(e.response)
+                sys.exit()
 
             return response
 
@@ -59,13 +62,27 @@ def query(model: Model, message: str):
                     system = message[0]['content'],
                     messages = message[1:]
                 )
+                print("----------", completion, "----------", sep="\n")
             except Exception as e:
                 print(f"Unexpected error: {e}")
-            else:
-                return json.loads(completion.content[0].text)
+                sys.exit()
+            
+            response = json.loads(completion.content[0].text)
+            return response
+
+# TODO: Implement an error handling mechanism that ensures that the JSON returned is parsable, and reprompts in the case it isn't.
+
+            # try:
+            #     response = json.loads(completion.content[0].text)
+            # except json.decoder.JSONDecodeError: 
+
+# TODO: Implement support for Gemini. Refer to test.py for an example API call.
 
         case "GEMINI":
             print("GEMINI")
+
+# TODO: Preferably include support for other models that are cheaper and free. Becuase I am cheap.
+
         case _:
             print("Working on it!")
 
