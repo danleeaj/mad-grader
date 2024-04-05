@@ -65,6 +65,10 @@ class Grader(Agent):
 			"rubricComponentSatisfied": <'Yes'/'No'>
 			"explanation": <A string with a few sentences explaining your reasoning>
 			Ensure that the property names are enclosed in double quotes.
+			Additionally, please consider the following when evaluating the response:
+			* Maintain a balanced and confident approach, acknowledging the validity of different perspectives without becoming overly conforming.
+			* Justify your evaluation with sound reasoning to avoid getting trapped in an endless feedback loop of contradictory arguments.
+			* Express any uncertainty or request clarification if needed, rather than simply flipping to the opposing view.
 			"""}
 		]
 		for dialog in initial_message:
@@ -96,7 +100,7 @@ class Grader(Agent):
 
 		message = [
 			{"role": "user",
-			"content": f"The other agent argues '{rubricComponentSatisfied}'. The reason is '{explanation}'. Please reevaluate your answer and give a new reply in the same format. Maintain your original answer if you still believe you were correct."}
+			"content": f"The other agent argues '{rubricComponentSatisfied}'. The reason is '{explanation}'. Please reevaluate your answer and give a new reply in the same format, taking into account the guidelines provided earlier about maintaining confidence, acknowledging different perspectives, and avoiding conformity traps. Maintain your original answer if you still believe you were correct."}
 		]
 
 		# print(message)
