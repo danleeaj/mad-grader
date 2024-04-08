@@ -7,9 +7,9 @@ context = """
 In a healthy person without diabetes, are insulin levels regulated homeostatically? (Note: we are referring to levels of the hormone insulin, not to blood sugar levels.) Refer to at least one element of the homeostatic circuit to justify your response.
 """
 
-# rubric_component = "No setpoint for insulin / levels vary"
+rubric_component = "No setpoint for insulin / levels vary"
 
-rubric_component = "Mentioning any element of the homeostatic circuit (setpoint, sensor, control center, effector)"
+# rubric_component = "Mentioning any element of the homeostatic circuit (setpoint, sensor, control center, effector)"
 
 student_response = "No because there is no setpoint for insulin levels. Typically, levels of insulin rise and fall depending on when and what one has eaten and one’s blood sugar level instead of staying at a fixed level."
 
