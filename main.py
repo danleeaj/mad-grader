@@ -14,20 +14,27 @@ rubric_component = "No setpoint for insulin / levels vary"
 student_response = "No because there is no setpoint for insulin levels. Typically, levels of insulin rise and fall depending on when and what one has eaten and one’s blood sugar level instead of staying at a fixed level."
 
 def debate(rubric_component, student_response, context: str = None):
-    
+
+    debate_history = []
+    round_history = {}
+
     grader1 = Grader(Model.GPT)
     grader2 = Grader(Model.CLAUDE)
     evaluator = Evaluator(Model.CLAUDE)
     
     grader1.setup_message(rubric_component, student_response, context)
     grader1_argument = grader1.evaluate()
+
     grader2.setup_message(rubric_component, student_response, context)
     grader2_argument = grader2.evaluate()
 
     evaluator.setup_message(grader1_argument, grader2_argument)
     evaluator_argument = evaluator.evaluate()
 
-    print(f"GRADER 1 ARGUMENT -------- \n\n{grader1_argument} \n\nGRADER 2 ARGUMENT -------- \n\n{grader2_argument} \n\nEVALUATION --------------- \n\n{evaluator_argument} \n\n")
+    round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
+    debate_history.append(round_history)
+
+    print(f"GRADER 1 ARGUMENT -------- \n{round_history['Grader 1']} \n\nGRADER 2 ARGUMENT -------- \n{round_history['Grader 2']} \n\nEVALUATION --------------- \n{round_history['Evaluator']} \n\n")
 
     while not evaluator_argument['gradersAgree']:
     # while not grader1_argument['rubricComponentSatisfied'] == grader2_argument['rubricComponentSatisfied']:
@@ -40,9 +47,14 @@ def debate(rubric_component, student_response, context: str = None):
         evaluator.setup_message(grader1_argument, grader2_argument)
         evaluator_argument = evaluator.evaluate()
 
-        print(f"GRADER 1 ARGUMENT -------- \n{grader1_argument} \n\nGRADER 2 ARGUMENT -------- \n{grader2_argument} \n\nEVALUATION --------------- \n{evaluator_argument} \n\n")
+        round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
+        debate_history.append(round_history)
+
+        print(f"GRADER 1 ARGUMENT -------- \n{round_history['Grader 1']} \n\nGRADER 2 ARGUMENT -------- \n{round_history['Grader 2']} \n\nEVALUATION --------------- \n{round_history['Evaluator']} \n\n")
     
     print("FINISH ------------------")
+
+    return debate_history
 
 if __name__ == "__main__":
     debate(rubric_component, student_response, context)

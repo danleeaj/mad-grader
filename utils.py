@@ -22,6 +22,7 @@ def query(model: Model, message: str):
     model_name = model.value
 
     match model.name:
+        
         case "GPT":
 
             client = OpenAI()

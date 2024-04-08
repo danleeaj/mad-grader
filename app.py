@@ -1,7 +1,7 @@
 import streamlit as st
 import main
 
-with st.form("debate_form"):
+with st.form("debate_form", border=False):
 
     context = st.text_input("Context", placeholder="Enter the body of your question here to improve grading accuracy. (Optional)")
     rubric_component = st.text_input("Rubric component", placeholder="Enter the grading rubric component here.")
@@ -11,4 +11,7 @@ with st.form("debate_form"):
 
     if submitted:
         print("Submitted")
-        main.debate(rubric_component, student_response, context)
+        history = main.debate(rubric_component, student_response, context)
+
+        for round in history:
+            st.write(round)
