@@ -3,6 +3,10 @@ from agents.evaluator import Evaluator
 
 from utils import Model
 
+import concurrent.futures
+
+import time
+
 context = """
 In a healthy person without diabetes, are insulin levels regulated homeostatically? (Note: we are referring to levels of the hormone insulin, not to blood sugar levels.) Refer to at least one element of the homeostatic circuit to justify your response.
 """
@@ -23,14 +27,20 @@ def debate(rubric_component, student_response, context: str = None):
     evaluator = Evaluator(Model.CLAUDE)
     
     grader1.setup_message(rubric_component, student_response, context)
-    grader1_argument = grader1.evaluate()
+    # grader1_argument = grader1.evaluate()
 
     grader2.setup_message(rubric_component, student_response, context)
-    grader2_argument = grader2.evaluate()
+    # grader2_argument = grader2.evaluate()
+
+    with concurrent.futures.ThreadPoolExecutor() as t:
+        t1 = t.submit(grader1.evaluate)
+        t2 = t.submit(grader2.evaluate)
+
+        grader1_argument = t1.result()
+        grader2_argument = t2.result()
 
     evaluator.setup_message(grader1_argument, grader2_argument)
     evaluator_argument = evaluator.evaluate()
-
     round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
     debate_history.append(round_history)
 
@@ -41,8 +51,16 @@ def debate(rubric_component, student_response, context: str = None):
 
         grader1.add_argument(grader2_argument)
         grader2.add_argument(grader1_argument)
-        grader1_argument = grader1.evaluate()
-        grader2_argument = grader2.evaluate()
+
+        with concurrent.futures.ThreadPoolExecutor() as t:
+            t1 = t.submit(grader1.evaluate)
+            t2 = t.submit(grader2.evaluate)
+
+            grader1_argument = t1.result()
+            grader2_argument = t2.result()
+
+        # grader1_argument = grader1.evaluate()
+        # grader2_argument = grader2.evaluate()
 
         evaluator.setup_message(grader1_argument, grader2_argument)
         evaluator_argument = evaluator.evaluate()
@@ -57,4 +75,6 @@ def debate(rubric_component, student_response, context: str = None):
     return debate_history
 
 if __name__ == "__main__":
+    # start = time.perf_counter()
     debate(rubric_component, student_response, context)
+    # end = time.perf_counter()
