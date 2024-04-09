@@ -3,7 +3,7 @@ import main
 
 st.header("Welcome to :blue[_mad-grader_]", divider="rainbow")
 st.markdown(''':blue[mad-grader] (working title) is an automatic grading program that utilizes multi-agent debate to ensure consistency and accuracy in delivering verdicts on whether a rubric component is satisfied.
-            \nThis is a demonstration of the multi-agent debate technology it utlizes.
+            \nThis is a demonstration of the multi-agent debate technology it utlizes. Specifically, the graders use OpenAI's GPT 3.5 and
             ''')
 
 with st.form("debate_form", border=False):
