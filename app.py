@@ -1,8 +1,9 @@
 import streamlit as st
 import main
 
-st.header("Welcome to :blue[_mad-debate_]", divider="rainbow")
-st.markdown(''':blue[mad-debate] (working title) is an automatic grading program that utilizes multi-agent debate to ensure consistency and accuracy in delivering verdicts on whether a rubric component is satisfied.
+st.header("Welcome to :blue[_mad-grader_]", divider="rainbow")
+st.markdown(''':blue[mad-grader] (working title) is an automatic grading program that utilizes multi-agent debate to ensure consistency and accuracy in delivering verdicts on whether a rubric component is satisfied.
+            \nThis is a demonstration of the multi-agent debate technology it utlizes.
             ''')
 
 with st.form("debate_form", border=False):
@@ -17,6 +18,14 @@ with st.form("debate_form", border=False):
         print("Submitted")
         history = main.debate(rubric_component, student_response, context)
 
-        for round in history:
+        if not history:
+            st.error('Error: No history was provided. Please let the developer know and try again in 5 minutes.', icon="🚨")
+
+        for count, round in enumerate(history):
+            st.subheader(f"Round {count + 1}", divider="gray")
+
+            st.markdown(f'''Evaluation: The graders {':green[do]' if round['Evaluator']['gradersAgree'] else ':red[do not]'} agree. The consensus reached is {round['Evaluator']['consensusEvaluation']}.
+                        ''')
+
             st.write(round)
     
