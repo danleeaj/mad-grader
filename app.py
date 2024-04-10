@@ -15,7 +15,7 @@ with st.form("debate_form", border=False):
     submitted = st.form_submit_button(label="Submit", help="Click to query the API to initiate a multi-agent debate session.")
 
     if submitted:
-        print("Submitted")
+
         history = main.debate(rubric_component, student_response, context)
 
         if not history:
@@ -29,3 +29,6 @@ with st.form("debate_form", border=False):
 
             st.write(round)
     
+
+st.divider()
+st.caption('Developed by An Jie Lee, 2024 // [Github](https://github.com/danleeaj)')
