@@ -10,6 +10,8 @@ from anthropic import _exceptions
 
 import json
 
+import google.generativeai as genai
+
 class Model(Enum):
     GPT = "gpt-3.5-turbo-0125"
     GEMINI = "gemini-pro"
@@ -79,10 +81,17 @@ def query(model: Model, message: str):
 # TODO: Implement support for Gemini. Refer to test.py for an example API call.
 
         case "GEMINI":
+
+            genai.configure()
+            model = genai.GenerativeModel(model_name=model_name)
+
+            for dialog in message:
+                ...
+
             print("GEMINI")
 
 # TODO: Preferably include support for other models that are cheaper and free. Becuase I am cheap.
 
         case _:
-            print("Working on it!")
+            raise ValueError("Model currently not supported. Either GPT or CLAUDE.")
 

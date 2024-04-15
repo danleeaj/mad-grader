@@ -23,8 +23,8 @@ def debate(rubric_component, student_response, context: str = None):
     round_history = {}
 
     grader1 = Grader(Model.GPT)
-    grader2 = Grader(Model.CLAUDE)
-    evaluator = Evaluator(Model.CLAUDE)
+    grader2 = Grader(Model.GPT)
+    evaluator = Evaluator(Model.GPT)
     
     grader1.setup_message(rubric_component, student_response, context)
     # grader1_argument = grader1.evaluate()
@@ -44,7 +44,7 @@ def debate(rubric_component, student_response, context: str = None):
     round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
     debate_history.append(round_history)
 
-    print(f"GRADER 1 ARGUMENT -------- \n{round_history['Grader 1']} \n\nGRADER 2 ARGUMENT -------- \n{round_history['Grader 2']} \n\nEVALUATION --------------- \n{round_history['Evaluator']} \n\n")
+    print(f"{"GRADER 1 ARGUMENT ":-<100} \n{round_history['Grader 1']} \n\n{"GRADER 2 ARGUMENT ":-<100} \n{round_history['Grader 2']} \n\{"EVALUATION ":-<100} \n{round_history['Evaluator']} \n\n")
 
     while not evaluator_argument['gradersAgree']:
     # while not grader1_argument['rubricComponentSatisfied'] == grader2_argument['rubricComponentSatisfied']:
@@ -68,7 +68,7 @@ def debate(rubric_component, student_response, context: str = None):
         round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
         debate_history.append(round_history)
 
-        print(f"GRADER 1 ARGUMENT -------- \n{round_history['Grader 1']} \n\nGRADER 2 ARGUMENT -------- \n{round_history['Grader 2']} \n\nEVALUATION --------------- \n{round_history['Evaluator']} \n\n")
+        print(f"{"GRADER 1 ARGUMENT ":-<100} \n{round_history['Grader 1']} \n\n{"GRADER 2 ARGUMENT ":-<100} \n{round_history['Grader 2']} \n\n{"EVALUATION ":-<100} \n{round_history['Evaluator']} \n\n")
     
     print("FINISH ------------------")
 
