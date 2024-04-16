@@ -1,30 +1,72 @@
 from agents.grader import Grader
 from agents.evaluator import Evaluator
 
-from utils import Model
+from utils import Model, stopwatch
 
 import concurrent.futures
 
-import time
+from itertools import repeat
 
-context = """
-In a healthy person without diabetes, are insulin levels regulated homeostatically? (Note: we are referring to levels of the hormone insulin, not to blood sugar levels.) Refer to at least one element of the homeostatic circuit to justify your response.
-"""
+context = """"""
 
-rubric_component = "No setpoint for insulin / levels vary"
+rubric_component = "High blood pressure and diabetes often go together because angiotensin II decreases the amount of GLUT4 glucose transporter in muscle cell membranes."
+
+rubric_components = [
+    "High blood pressure and diabetes often go together",
+    "Angiotensin II decreases the amount of GLUT4 glucose transporter in muscle cell membranes"
+]
 
 # rubric_component = "Mentioning any element of the homeostatic circuit (setpoint, sensor, control center, effector)"
 
-student_response = "No because there is no setpoint for insulin levels. Typically, levels of insulin rise and fall depending on when and what one has eaten and one’s blood sugar level instead of staying at a fixed level."
+student_response = "The connection between high blood pressure and diabetes is not due to angiotensin II decreasing GLUT4. Instead, angiotensin II actually increases the amount of GLUT4 in the cell membrane, which would help improve glucose uptake and regulate blood sugar levels."
 
+# TODO: Implement response class and refactor the code so that debate returns multiple response objects instead of a huge ass json.
+
+class Response():
+
+    def __init__(self, agent: str, type: str, content: str):
+        self.agent = agent
+        if type not in ("Evaluator", "Grader"):
+            raise ValueError("type must be 'Evaluator' or 'Grader'")
+        self.type = type
+        self.content = content
+
+class Round():
+    ...
+
+class Debate():
+
+    def __init__(self):
+        ...
+
+@stopwatch
+def debate_rubric_set(rubric_components: list[str], student_response: str, context: str):
+
+    breakdown = {}
+    
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results = executor.map(debate, rubric_components, repeat(student_response, len(rubric_components)), repeat(context, len(rubric_components)))
+
+        for i, result in enumerate(results):
+            breakdown[rubric_components[i]] = result
+    
+    # print(breakdown)
+
+    return breakdown
+
+        # for i in range(len(results)):
+        #     breakdown[rubric_components[i]] = results[i]
+
+
+@stopwatch
 def debate(rubric_component, student_response, context: str = None):
 
     debate_history = []
     round_history = {}
 
     grader1 = Grader(Model.GPT)
-    grader2 = Grader(Model.GPT)
-    evaluator = Evaluator(Model.GPT)
+    grader2 = Grader(Model.CLAUDE)
+    evaluator = Evaluator(Model.CLAUDE)
     
     grader1.setup_message(rubric_component, student_response, context)
     # grader1_argument = grader1.evaluate()
@@ -32,9 +74,9 @@ def debate(rubric_component, student_response, context: str = None):
     grader2.setup_message(rubric_component, student_response, context)
     # grader2_argument = grader2.evaluate()
 
-    with concurrent.futures.ThreadPoolExecutor() as t:
-        t1 = t.submit(grader1.evaluate)
-        t2 = t.submit(grader2.evaluate)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        t1 = executor.submit(grader1.evaluate)
+        t2 = executor.submit(grader2.evaluate)
 
         grader1_argument = t1.result()
         grader2_argument = t2.result()
@@ -44,7 +86,7 @@ def debate(rubric_component, student_response, context: str = None):
     round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
     debate_history.append(round_history)
 
-    print(f"{"GRADER 1 ARGUMENT ":-<100} \n{round_history['Grader 1']} \n\n{"GRADER 2 ARGUMENT ":-<100} \n{round_history['Grader 2']} \n\{"EVALUATION ":-<100} \n{round_history['Evaluator']} \n\n")
+    # print(f"{"GRADER 1 ARGUMENT ":-<100} \n{round_history['Grader 1']} \n\n{"GRADER 2 ARGUMENT ":-<100} \n{round_history['Grader 2']} \n{"EVALUATION ":-<100} \n{round_history['Evaluator']} \n\n")
 
     while not evaluator_argument['gradersAgree']:
     # while not grader1_argument['rubricComponentSatisfied'] == grader2_argument['rubricComponentSatisfied']:
@@ -68,13 +110,16 @@ def debate(rubric_component, student_response, context: str = None):
         round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
         debate_history.append(round_history)
 
-        print(f"{"GRADER 1 ARGUMENT ":-<100} \n{round_history['Grader 1']} \n\n{"GRADER 2 ARGUMENT ":-<100} \n{round_history['Grader 2']} \n\n{"EVALUATION ":-<100} \n{round_history['Evaluator']} \n\n")
+        # print(f"{"GRADER 1 ARGUMENT ":-<100} \n{round_history['Grader 1']} \n\n{"GRADER 2 ARGUMENT ":-<100} \n{round_history['Grader 2']} \n\n{"EVALUATION ":-<100} \n{round_history['Evaluator']} \n\n")
     
     print("FINISH ------------------")
 
     return debate_history
 
+
+
 if __name__ == "__main__":
     # start = time.perf_counter()
-    debate(rubric_component, student_response, context)
+    # debate(rubric_component, student_response, context)
+    debate_rubric_set(rubric_components, student_response, context)
     # end = time.perf_counter()
