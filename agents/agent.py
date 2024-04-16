@@ -1,4 +1,4 @@
-from utils import Model, query
+from utils import Model, query, stopwatch
 
 # TODO: Make sure that the request is also added to the message history.
 # TODO: Implement support for multiple models (use enum)
@@ -33,6 +33,7 @@ class Agent:
 		for dialog in message:
 			self.message.append(dialog)
       
+	@stopwatch
 	def evaluate(self) -> str:
 		"""Makes API call to respective LLM model with error handling. Automatically appends the response to message history.
 
