@@ -10,7 +10,7 @@ from anthropic import _exceptions
 
 import json
 
-import google.generativeai as genai
+# import google.generativeai as genai
 
 import time
 from functools import wraps
@@ -95,15 +95,15 @@ def query(model: Model, message: str):
 
 # TODO: Implement support for Gemini. Refer to test.py for an example API call.
 
-        case "GEMINI":
+        # case "GEMINI":
 
-            genai.configure()
-            model = genai.GenerativeModel(model_name=model_name)
+        #     genai.configure()
+        #     model = genai.GenerativeModel(model_name=model_name)
 
-            for dialog in message:
-                ...
+        #     for dialog in message:
+        #         ...
 
-            print("GEMINI")
+        #     print("GEMINI")
 
 # TODO: Preferably include support for other models that are cheaper and free. Becuase I am cheap.
 
