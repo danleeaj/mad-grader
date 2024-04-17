@@ -24,18 +24,20 @@ with st.form("debate_form", border=False):
         if not history:
             st.error('Error: No history was provided. Please let the developer know and try again in 5 minutes.', icon="🚨")
 
-        for component in history:
+        st.write(history)
+        
+        # for component in history:
 
-            st.markdown(f"*{component}*")
+        #     st.markdown(f"{component}")
 
-            for dialog in history[component]:
+        #     for dialog in history[component]:
 
-                # st.subheader(f"Round {count + 1}", divider="gray")
+        #         # st.subheader(f"Round {count + 1}", divider="gray")
 
-                # st.markdown(f'''Evaluation: The graders {':green[do]' if round['Evaluator']['gradersAgree'] else ':red[do not]'} agree. The consensus reached is {round['Evaluator']['consensusEvaluation']}.
-                #             ''')
+        #         # st.markdown(f'''Evaluation: The graders {':green[do]' if round['Evaluator']['gradersAgree'] else ':red[do not]'} agree. The consensus reached is {round['Evaluator']['consensusEvaluation']}.
+        #         #             ''')
 
-                st.write(dialog)
+        #         st.write(dialog)
 
 st.divider()
 st.caption('Developed by An Jie Lee, 2024 // [Github](https://github.com/danleeaj)')
