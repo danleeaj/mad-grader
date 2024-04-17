@@ -6,7 +6,7 @@ st.header(":rainbow[_set rubric demo_]", divider="rainbow")
 with st.form("debate_form", border=False):
 
     context = st.text_area("Context", placeholder="Enter the body of your question here to improve grading accuracy. (Optional)", help="The user can optionally enter the body of the question for the program to use as a reference when grading the response. This is particularly useful for conditional rubric components, such as 'no irrelevant information'. The program will use the context as a reference to determine whether the response is relevant to the question.")
-    rubric_component = st.text_area(":red[*] Rubric components", placeholder="Enter the grading rubric components here, starting each new component on a new line", help="The rubric component is what the response will be graded off of. If the rubric component is satisfied by the response, then 'true' is returned, else, 'false' is returned.")
+    rubric_component = st.text_area(":red[*] Rubric components", placeholder="Enter the grading rubric components here, starting each new component on a new line", help="The rubric component is what the response will be graded off of. If the rubric component is satisfied by the response, then 'true' is returned, else, 'false' is returned. Please delimit your components with a line break. The components will be split according to the line breaks and passed to the graders separately.")
     student_response = st.text_area(":red[*] Student response", placeholder="Enter the student response you want to grade here.", help="The student response is where the response to be graded is entered.")
     
     submitted = st.form_submit_button(label="Submit", help="Click to query the API to initiate a multi-agent debate session.")
