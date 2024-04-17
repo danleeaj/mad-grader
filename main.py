@@ -39,7 +39,7 @@ class Debate():
     def __init__(self):
         ...
 
-@stopwatch
+# @stopwatch
 def debate_rubric_set(rubric_components: list[str], student_response: str, context: str):
 
     breakdown = {}
@@ -58,7 +58,7 @@ def debate_rubric_set(rubric_components: list[str], student_response: str, conte
         #     breakdown[rubric_components[i]] = results[i]
 
 
-@stopwatch
+# @stopwatch
 def debate(rubric_component, student_response, context: str = None):
 
     debate_history = []
@@ -121,5 +121,11 @@ def debate(rubric_component, student_response, context: str = None):
 if __name__ == "__main__":
     # start = time.perf_counter()
     # debate(rubric_component, student_response, context)
-    debate_rubric_set(rubric_components, student_response, context)
+    response = debate_rubric_set(rubric_components, student_response, context)
+
+    for component in response:
+        print(component)
+
+        for dialog in response[component]:
+            print(dialog)
     # end = time.perf_counter()
