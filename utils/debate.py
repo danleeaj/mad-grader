@@ -10,9 +10,12 @@ class Debate():
         self.context = context
         self.rounds = []
         self.round_count = len(self.rounds) + 1
+        self.flagged: bool = False
 
     def add_round(self, round: Round) -> None:
         self.rounds.append(round)
+        if round.consensus_error_flag or round.evaluation_error_flag:
+            self.flagged = True
 
     def __str__(self) -> str:
         
