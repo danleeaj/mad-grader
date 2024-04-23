@@ -90,7 +90,7 @@ def query(model: Model, message: str):
                 response = query_gpt(model_name, message)
 
             case "CLAUDE":
-                response = query_gpt(model_name, message)
+                response = query_claude(model_name, message)
 
             case _:
                 raise ValueError("Model currently not supported. Either GPT or CLAUDE.")

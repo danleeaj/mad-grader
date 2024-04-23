@@ -78,7 +78,7 @@ def debate(rubric_component, student_response, context: str = None):
 if __name__ == "__main__":
     # start = time.perf_counter()
     # debate(rubric_component, student_response, context)
-    response = debate_rubric_set(rubric_components, student_response, context)
+    response = debate(rubric_component, student_response, context)
 
     for component in response:
         print(component)
