@@ -17,5 +17,5 @@ class Round():
         
     def __str__(self):
 
-        summary = f"{self.responses[0]}\n{self.responses[1]}\n{self.responses[2]}"
+        summary = f"Round object.{' Flagged.' if self.evaluation_error_flag or self.consensus_error_flag else ''}\n\n{self.responses[0]}\n\n{self.responses[1]}\n\n{self.responses[2]}\n"
         return summary

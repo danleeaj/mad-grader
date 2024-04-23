@@ -2,6 +2,7 @@ from agents.grader import Grader
 from agents.evaluator import Evaluator
 
 from utils.round import Round
+from utils.debate import Debate
 
 from utils.query import Model
 from utils.utils import stopwatch
@@ -23,7 +24,11 @@ student_response = "The connection between high blood pressure and diabetes is n
 # @stopwatch
 def debate(rubric_component, student_response, context: str = None):
 
-    debate_history = []
+    debate_history = Debate(
+        rubric_component=rubric_component,
+        student_response=student_response,
+        context=context,
+    )
 
     grader1 = Grader(Model.GPT)
     grader2 = Grader(Model.CLAUDE)
@@ -44,6 +49,8 @@ def debate(rubric_component, student_response, context: str = None):
     evaluator_argument = evaluator.evaluate()
 
     round = Round([grader1_argument, grader2_argument, evaluator_argument])
+
+    debate_history.add_round(round)
 
     print(round)
 
@@ -66,6 +73,8 @@ def debate(rubric_component, student_response, context: str = None):
         evaluator_argument = evaluator.evaluate()
 
         round = Round([grader1_argument, grader2_argument, evaluator_argument])
+
+        debate_history.add_round(round)
 
         print(round)
 

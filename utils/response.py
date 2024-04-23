@@ -14,5 +14,10 @@ class Response():
     
     def __str__(self):
 
-        summary = f"Response object from {self.type} of model {self.model.name}. Request initiated on {self.time_requested} and took {self.time_taken} to complete."
+        summary = (
+            f"     Response object from {self.type} of model {self.model.name}. " 
+            f"Request initiated on {self.time_requested} and took {self.time_taken} to complete.\n"
+            f"     Content Summary: {str(self.content)[:100]}..."
+        )
+        
         return summary
