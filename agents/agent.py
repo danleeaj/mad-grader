@@ -35,7 +35,7 @@ class Agent:
 			self.message.append(dialog)
       
 	@stopwatch
-	def evaluate(self) -> str:
+	def evaluate(self):
 		"""Makes API call to respective LLM model with error handling. Automatically appends the response to message history.
 
 		#### Args

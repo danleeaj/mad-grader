@@ -1,6 +1,8 @@
 from agents.grader import Grader
 from agents.evaluator import Evaluator
 
+from utils.round import Round
+
 from utils.query import Model
 from utils.utils import stopwatch
 
@@ -39,16 +41,20 @@ def debate(rubric_component, student_response, context: str = None):
         grader1_argument = t1.result()
         grader2_argument = t2.result()
 
-    evaluator.setup_message(grader1_argument, grader2_argument)
+    evaluator.setup_message(grader1_argument.content, grader2_argument.content)
     evaluator_argument = evaluator.evaluate()
 
-    round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
-    debate_history.append(round_history)
+    round = Round([grader1_argument, grader2_argument, evaluator_argument])
 
-    while not evaluator_argument['gradersAgree']:
+    print(round)
 
-        grader1.add_argument(grader2_argument)
-        grader2.add_argument(grader1_argument)
+    # TODO: Figure out __str__ method for both Round() and Response() so that it makes sense.
+    # TODO: Implement Debate() object.
+
+    while not evaluator_argument.content['gradersAgree']:
+
+        grader1.add_argument(grader2_argument.content)
+        grader2.add_argument(grader1_argument.content)
 
         with concurrent.futures.ThreadPoolExecutor() as t:
             t1 = t.submit(grader1.evaluate)
@@ -57,13 +63,15 @@ def debate(rubric_component, student_response, context: str = None):
             grader1_argument = t1.result()
             grader2_argument = t2.result()
 
-        evaluator.setup_message(grader1_argument, grader2_argument)
+        evaluator.setup_message(grader1_argument.content, grader2_argument.content)
         evaluator_argument = evaluator.evaluate()
 
-        round_history['Grader 1'], round_history['Grader 2'], round_history['Evaluator'] = grader1_argument, grader2_argument, evaluator_argument
-        debate_history.append(round_history)
+        round = Round([grader1_argument, grader2_argument, evaluator_argument])
 
-    
+        # debate_history.append(round_history)
+
+        print(round)
+
     return debate_history
 
 
@@ -71,4 +79,3 @@ if __name__ == "__main__":
 
     response = debate(rubric_component, student_response, context)
     print(response)
-

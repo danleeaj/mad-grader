@@ -11,6 +11,10 @@ from anthropic import _exceptions
 
 import json
 
+from .response import Response
+
+from datetime import datetime
+
 class APIError(Exception):
     pass
 
@@ -81,6 +85,8 @@ def query(model: Model, message: str, type: str):
 
     model_name = model.value
 
+    time_requested = datetime.now()
+
     try:
 
         match model.name:
@@ -107,7 +113,13 @@ def query(model: Model, message: str, type: str):
             try:
                 return_object = json.loads(response)
                 if validate_json(return_object, type):
-                    return return_object
+                    return Response(
+                        type= type,
+                        model= model,
+                        content= return_object,
+                        time_requested= time_requested,
+                        time_completed= datetime.now()
+                    )
                 else:
                     raise json.JSONDecodeError("Failed to parse JSON due to invalid keys.")
             except json.JSONDecodeError:

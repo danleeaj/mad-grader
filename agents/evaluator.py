@@ -20,7 +20,7 @@ class Evaluator(Agent):
 
 		self.message.append({
 			"role": "assistant", 
-			"content" : response
+			"content" : response.content
 		})
 
 		return response

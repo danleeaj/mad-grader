@@ -20,8 +20,8 @@ class Grader(Agent):
 
 		self.count += 1
 
-		rubricComponentSatisfied = response['rubricComponentSatisfied']
-		explanation = response['explanation']
+		rubricComponentSatisfied = response.content['rubricComponentSatisfied']
+		explanation = response.content['explanation']
 
 		self.message.append({
 			"role": "assistant", 
