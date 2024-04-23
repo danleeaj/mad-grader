@@ -1,62 +1,19 @@
 from agents.grader import Grader
 from agents.evaluator import Evaluator
 
-from utils import Model, stopwatch
+from utils.utils import Model, stopwatch
 
 import concurrent.futures
 
 from itertools import repeat
 
-context = """"""
+context = ""
 
-rubric_component = "High blood pressure and diabetes often go together because angiotensin II decreases the amount of GLUT4 glucose transporter in muscle cell membranes."
-
-rubric_components = [
-    "High blood pressure and diabetes often go together",
-    "Angiotensin II decreases the amount of GLUT4 glucose transporter in muscle cell membranes"
-]
-
-# rubric_component = "Mentioning any element of the homeostatic circuit (setpoint, sensor, control center, effector)"
+rubric_component = "High blood pressure and diabetes often go together"
 
 student_response = "The connection between high blood pressure and diabetes is not due to angiotensin II decreasing GLUT4. Instead, angiotensin II actually increases the amount of GLUT4 in the cell membrane, which would help improve glucose uptake and regulate blood sugar levels."
 
 # TODO: Implement response class and refactor the code so that debate returns multiple response objects instead of a huge ass json.
-
-class Response():
-
-    def __init__(self, agent: str, type: str, content: str):
-        self.agent = agent
-        if type not in ("Evaluator", "Grader"):
-            raise ValueError("type must be 'Evaluator' or 'Grader'")
-        self.type = type
-        self.content = content
-
-class Round():
-    ...
-
-class Debate():
-
-    def __init__(self):
-        ...
-
-# @stopwatch
-def debate_rubric_set(rubric_components: list[str], student_response: str, context: str):
-
-    breakdown = {}
-    
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        results = executor.map(debate, rubric_components, repeat(student_response, len(rubric_components)), repeat(context, len(rubric_components)))
-
-        for i, result in enumerate(results):
-            breakdown[rubric_components[i]] = result
-    
-    # print(breakdown)
-
-    return breakdown
-
-        # for i in range(len(results)):
-        #     breakdown[rubric_components[i]] = results[i]
-
 
 # @stopwatch
 def debate(rubric_component, student_response, context: str = None):
@@ -129,3 +86,22 @@ if __name__ == "__main__":
         for dialog in response[component]:
             print(dialog)
     # end = time.perf_counter()
+
+
+# # @stopwatch
+# def debate_rubric_set(rubric_components: list[str], student_response: str, context: str):
+
+#     breakdown = {}
+    
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#         results = executor.map(debate, rubric_components, repeat(student_response, len(rubric_components)), repeat(context, len(rubric_components)))
+
+#         for i, result in enumerate(results):
+#             breakdown[rubric_components[i]] = result
+    
+#     # print(breakdown)
+
+#     return breakdown
+
+#         # for i in range(len(results)):
+#         #     breakdown[rubric_components[i]] = results[i]

@@ -1,4 +1,4 @@
-from utils import Model, query, stopwatch
+from utils.utils import Model, query, stopwatch
 
 # TODO: Make sure that the request is also added to the message history.
 # TODO: Implement support for multiple models (use enum)
