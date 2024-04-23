@@ -24,7 +24,6 @@ student_response = "The connection between high blood pressure and diabetes is n
 def debate(rubric_component, student_response, context: str = None):
 
     debate_history = []
-    round_history = {}
 
     grader1 = Grader(Model.GPT)
     grader2 = Grader(Model.CLAUDE)
@@ -67,8 +66,6 @@ def debate(rubric_component, student_response, context: str = None):
         evaluator_argument = evaluator.evaluate()
 
         round = Round([grader1_argument, grader2_argument, evaluator_argument])
-
-        # debate_history.append(round_history)
 
         print(round)
 
