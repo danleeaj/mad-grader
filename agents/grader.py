@@ -20,19 +20,8 @@ class Grader(Agent):
 
 		self.count += 1
 
-		try:
-			rubricComponentSatisfied = response['rubricComponentSatisfied']
-			explanation = response['explanation']
-			if not rubricComponentSatisfied or not explanation:
-				raise ValueError
-		except KeyError:
-			print("JSON not formatted correctly. Ensure that both 'rubricComponentSatisfied' and 'explanation' are keys.")
-			# print(response)
-			sys.exit()
-		except ValueError:
-			print("Corresponding key values are empty. Ensure that both keys have corresponding values.")
-			# print(response)
-			sys.exit()
+		rubricComponentSatisfied = response['rubricComponentSatisfied']
+		explanation = response['explanation']
 
 		self.message.append({
 			"role": "assistant", 

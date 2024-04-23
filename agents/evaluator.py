@@ -1,5 +1,4 @@
 from .agent import Agent
-import sys
 
 class Evaluator(Agent):
 	def __init__(self, model):
