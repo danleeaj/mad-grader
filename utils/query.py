@@ -16,9 +16,25 @@ from .response import Response
 from datetime import datetime
 
 class APIError(Exception):
+    """
+    Represents a general error that occurred during an API interaction.
+    """
     pass
 
 def query_gpt(model_name: str, message: str) -> Any:
+    """
+    Queries the specified GPT model with error handling and retry logic.
+
+    Args:
+        model_name (str): The name of the GPT model to use.
+        message (str): The message for the OpenAI API.
+
+    Returns:
+        Any: The raw response content from the OpenAI API.
+
+    Raises:
+        APIError: If there are network issues or repeated failures.
+    """
 
     client = OpenAI()
 
@@ -46,6 +62,19 @@ def query_gpt(model_name: str, message: str) -> Any:
 
 
 def query_claude(model_name: str, message: str) -> Any:
+    """
+    Queries the specified Claude model with error handling and retry logic.
+
+    Args:
+        model_name (str): The name of the Claude model to use.
+        message (str): The message for the Anthropic API.
+
+    Returns:
+        Any: The raw response content from the Anthropic API.
+
+    Raises:
+        APIError: If there are issues raised by Anthropic.
+    """
 
     client = anthropic.Anthropic()
 
@@ -65,6 +94,16 @@ def query_claude(model_name: str, message: str) -> Any:
     return completion.content[0].text
 
 def validate_json(response: dict, type: str):
+    """
+    Validates the structure of a JSON response based on the expected agent type.
+
+    Args:
+        response (dict): The JSON response to validate.
+        type (str): Indicates whether the response should conform to an 'Evaluator' or 'Grader' format.
+
+    Returns:
+        bool: True if the JSON response contains all required keys, False otherwise.
+    """
 
     if type == "Evaluator":
         required_keys = ["gradersAgree", "consensusEvaluation", "explanation"]
@@ -82,6 +121,20 @@ def validate_json(response: dict, type: str):
     return (len(missing) == 0)
 
 def query(model: Model, message: str, type: str):
+    """
+    Handles querying the LLM, JSON validation, and retries.
+
+    Args:
+        model (Model): The LLM model to use.
+        message (str): The message for the LLM.
+        type (str): The type of the sender, either 'Grader' or 'Evaluator'.
+
+    Returns:
+        Response: A Response object containing the LLM response and metadata.
+
+    Raises:
+        APIError: If there are API issues or repeated JSON parsing failures.
+    """
 
     model_name = model.value
 

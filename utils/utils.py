@@ -2,7 +2,8 @@ import time
 from functools import wraps
 
 def stopwatch(func):
-    """A decorator that prints the time taken by the decorated function.
+    """
+    A decorator that prints the time taken by the decorated function.
     """
     @wraps(func)
     def wrapper(*args, **kwargs):

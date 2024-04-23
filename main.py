@@ -13,26 +13,36 @@ from itertools import repeat
 
 context = ""
 
-rubric_component = "High blood pressure and diabetes often go together"
+rubric_component = "Amyloid beta plaques and neurofibrillary tangles are hallmarks of Alzheimer's."
 
-student_response = "The connection between high blood pressure and diabetes is not due to angiotensin II decreasing GLUT4. Instead, angiotensin II actually increases the amount of GLUT4 in the cell membrane, which would help improve glucose uptake and regulate blood sugar levels."
-
-# TODO: Implement response class and refactor the code so that debate returns multiple response objects instead of a huge ass json.
-# TODO: Implement Round() and Debate() classes as well
-
+student_response = "The histopathological hallmarks of Alzheimer's include amyloid beta plaque build-up and tau neurofibrillary tangle formation. They cause GluA2 receptor loss through causing receptor endocytosis."
 
 # @stopwatch
-def debate(rubric_component, student_response, context: str = None):
+def debate(rubric_component, student_response, context: str = None, grader1_model: Model = Model.GPT, grader2_model: Model = Model.CLAUDE, evaluator_model: Model = Model.CLAUDE) -> Debate:
+    """
+    Conducts a multi-round debate between two Grader models, facilitated by an Evaluator model.
 
+    Args:
+        rubric_component (str): The rubric component the debate is based off of.
+        student_response (str): The student response being evaluated.
+        context (str, optional): Additional context for the evaluation. Defaults to None.
+        grader1_model (Model, optional): LLM model for the first grader. Defaults to Model.GPT.
+        grader2_model (Model, optional): LLM model for the second grader. Defaults to Model.CLAUDE.
+        evaluator_model (Model, optional): LLM model for the evaluator. Defaults to Model.CLAUDE.
+
+    Returns:
+        Debate: A Debate object containing the rounds of the argument and its final outcome.
+    """
+    
     debate_history = Debate(
         rubric_component=rubric_component,
         student_response=student_response,
-        context=context,
+        context=context
     )
 
-    grader1 = Grader(Model.GPT)
-    grader2 = Grader(Model.CLAUDE)
-    evaluator = Evaluator(Model.CLAUDE)
+    grader1 = Grader(grader1_model)
+    grader2 = Grader(grader2_model)
+    evaluator = Evaluator(evaluator_model)
     
     grader1.setup_message(rubric_component, student_response, context)
 
@@ -53,9 +63,6 @@ def debate(rubric_component, student_response, context: str = None):
     debate_history.add_round(round)
 
     print(round)
-
-    # TODO: Figure out __str__ method for both Round() and Response() so that it makes sense.
-    # TODO: Implement Debate() object.
 
     while not evaluator_argument.content['gradersAgree']:
 
@@ -78,6 +85,7 @@ def debate(rubric_component, student_response, context: str = None):
 
         print(round)
 
+    debate_history.complete_debate()
     return debate_history
 
 
