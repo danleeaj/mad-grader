@@ -92,4 +92,5 @@ def debate(rubric_component, student_response, context: str = None, grader1_mode
 if __name__ == "__main__":
 
     response = debate(rubric_component, student_response, context)
-    print(response)
+    print(response.toJSON())
+    # print(json.dumps(response))
