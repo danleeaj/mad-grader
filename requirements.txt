@@ -1,6 +1,7 @@
 # for base debate functionality:
 
 anthropic
+<<<<<<< HEAD
 openai
 streamlit
 
@@ -12,3 +13,6 @@ djangorestframework
 # currently in development
 
 google.generativeai
+=======
+openai
+>>>>>>> 082acae (Removed Streamlit)
