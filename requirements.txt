@@ -1,3 +1,14 @@
+# for base debate functionality:
+
 anthropic
 openai
 streamlit
+
+# for api functionality
+
+django
+djangorestframework
+
+# currently in development
+
+google.generativeai
