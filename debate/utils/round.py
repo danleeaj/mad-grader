@@ -33,7 +33,9 @@ class Round():
         return {
             "potentialEvaluationError?" : self.evaluation_error_flag,
             "potentialConsensusError?" : self.evaluation_error_flag,
-            "graderResponse1" : self.responses[0].toJSON(),
-            "graderResponse2" : self.responses[1].toJSON(),
-            "evaluatorResponse" : self.responses[2].toJSON()
+            "responses" : {
+                "graderResponse1" : self.responses[0].toJSON(),
+                "graderResponse2" : self.responses[1].toJSON(),
+                "evaluatorResponse" : self.responses[2].toJSON()
+            }
         }
