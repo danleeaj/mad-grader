@@ -11,6 +11,8 @@ import concurrent.futures
 
 from itertools import repeat
 
+import json
+
 context = ""
 
 rubric_component = "Amyloid beta plaques and neurofibrillary tangles are hallmarks of Alzheimer's."
@@ -18,7 +20,7 @@ rubric_component = "Amyloid beta plaques and neurofibrillary tangles are hallmar
 student_response = "The histopathological hallmarks of Alzheimer's include amyloid beta plaque build-up and tau neurofibrillary tangle formation. They cause GluA2 receptor loss through causing receptor endocytosis."
 
 # @stopwatch
-def debate(rubric_component, student_response, context: str = None, grader1_model: Model = Model.GPT, grader2_model: Model = Model.CLAUDE, evaluator_model: Model = Model.CLAUDE) -> Debate:
+def debate(rubric_component, student_response, context: str = None, grader1_model: Model = Model.GPT, grader2_model: Model = Model.CLAUDE, evaluator_model: Model = Model.CLAUDE, jsonify: bool = False) -> Debate:
     """
     Conducts a multi-round debate between two Grader models, facilitated by an Evaluator model.
 
@@ -86,11 +88,16 @@ def debate(rubric_component, student_response, context: str = None, grader1_mode
         print(round)
 
     debate_history.complete_debate()
+
+    if jsonify:
+        return json.dumps(debate_history.toJSON(), default=str)
+
     return debate_history
 
 
 if __name__ == "__main__":
 
-    response = debate(rubric_component, student_response, context)
-    print(response.toJSON())
+    response = debate(rubric_component, student_response, context, jsonify=True)
+
+    print(response)
     # print(json.dumps(response))
