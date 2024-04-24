@@ -40,9 +40,9 @@ class Debate():
             "rubricComponent" : self.rubric_component,
             "context" : self.context,
             "responseGraded" : self.student_response,
-            "flagged?" : self.flagged
+            "flagged?" : self.flagged,
             "roundCount" : self.round_count,
-            "rounds" : [round.toJSON() for round in self.rounds],
+            "rounds" : [round.toJSON() for round in self.rounds]
         }
 
     def __str__(self) -> str:

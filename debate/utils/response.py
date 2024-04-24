@@ -28,7 +28,7 @@ class Response():
         return {
             "content" : self.content,
             "model" : self.model,
-            "timeInitiated" : self.time_requested,
+            "timeInitiated" : self.time_requested,#.strftime("%m/%d/%Y, %H:%M:%S"),
             "timeTaken" : self.time_taken
         }
     
