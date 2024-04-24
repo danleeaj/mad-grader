@@ -1,15 +1,7 @@
 anthropic
 <<<<<<< HEAD
 openai
-streamlit
 
-# for api functionality
+# for api
 
-django
-djangorestframework
-
-# currently in development
-
-google.generativeai
-=======
-openai
+flask
