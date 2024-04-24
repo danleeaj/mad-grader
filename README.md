@@ -13,4 +13,5 @@ All debate logic and handling can be found in the /debate folder, while all API 
 - Packages:
     - openai
     - anthropic
+    - flask
 - API keys for OpenAI and Anthropic
