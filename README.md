@@ -4,8 +4,10 @@ Source code for multi-agent debate implementation in the context of auto-grading
 
 #### Requirements
 
-- Python 3.10+
+- Python 3.10+ (match-case syntax used)
 - Packages:
     - openai
     - anthropic
-- API keys for OpenAI and Anthropic
+    - google.generativeai
+    - streamlit
+- API keys for OpenAI, Anthropic and Google AI

@@ -32,6 +32,18 @@ class Debate():
     
     def complete_debate(self) -> None:
         self.evaluation = True if self.rounds[-1].responses[-1].content['consensusEvaluation'] == 'Yes' else False
+    
+    def toJSON(self) -> dict:
+        
+        return {
+            "evaluation" : self.evaluation,
+            "rubricComponent" : self.rubric_component,
+            "context" : self.context,
+            "responseGraded" : self.student_response,
+            "flagged?" : self.flagged,
+            "roundCount" : self.round_count,
+            "rounds" : [round.toJSON() for round in self.rounds]
+        }
 
     def __str__(self) -> str:
         

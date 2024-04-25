@@ -1,2 +1,7 @@
 anthropic
 openai
+
+flask
+flask_restful
+
+streamlit

@@ -27,3 +27,15 @@ class Round():
 
         summary = f"Round object.{' Flagged.' if self.evaluation_error_flag or self.consensus_error_flag else ''}\n\n{self.responses[0]}\n\n{self.responses[1]}\n\n{self.responses[2]}\n"
         return summary
+    
+    def toJSON(self):
+
+        return {
+            "potentialEvaluationError?" : self.evaluation_error_flag,
+            "potentialConsensusError?" : self.evaluation_error_flag,
+            "responses" : {
+                "graderResponse1" : self.responses[0].toJSON(),
+                "graderResponse2" : self.responses[1].toJSON(),
+                "evaluatorResponse" : self.responses[2].toJSON()
+            }
+        }

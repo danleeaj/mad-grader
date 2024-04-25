@@ -23,6 +23,15 @@ class Response():
         self.time_completed = time_completed
         self.time_taken = time_completed - time_requested
     
+    def toJSON(self):
+
+        return {
+            "content" : self.content,
+            "model" : self.model,
+            "timeInitiated" : self.time_requested,#.strftime("%m/%d/%Y, %H:%M:%S"),
+            "timeTaken" : self.time_taken
+        }
+    
     def __str__(self):
 
         summary = (
