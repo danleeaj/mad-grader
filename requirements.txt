@@ -1,7 +1,7 @@
 anthropic
-<<<<<<< HEAD
 openai
 
 # for api
 
 flask
+flask_restful
