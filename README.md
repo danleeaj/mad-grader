@@ -8,6 +8,4 @@ Source code for multi-agent debate implementation in the context of auto-grading
 - Packages:
     - openai
     - anthropic
-    - google.generativeai
-    - streamlit
 - API keys for OpenAI, Anthropic and Google AI
