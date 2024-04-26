@@ -33,7 +33,7 @@ class Debate():
     def complete_debate(self) -> None:
         self.evaluation = True if self.rounds[-1].responses[-1].content['consensusEvaluation'] == 'Yes' else False
     
-    def toJSON(self) -> dict:
+    def toDICT(self) -> dict:
         
         return {
             "evaluation" : self.evaluation,

@@ -14,10 +14,10 @@ class Response():
         time_taken (datetime.timedelta): The time it took for the response to process.
     """
 
-    def __init__(self, type: str, model: Model, content: str, time_requested: datetime,time_completed: datetime):
+    def __init__(self, type: str, model: str, content: str, time_requested: datetime,time_completed: datetime):
 
         self.type = type
-        self.model = model
+        self.model = model.name
         self.content = content
         self.time_requested = time_requested
         self.time_completed = time_completed
@@ -29,13 +29,13 @@ class Response():
             "content" : self.content,
             "model" : self.model,
             "timeInitiated" : self.time_requested,#.strftime("%m/%d/%Y, %H:%M:%S"),
-            "timeTaken" : self.time_taken
+            "timeTaken" : str(self.time_taken)
         }
     
     def __str__(self):
 
         summary = (
-            f"Response object from {self.type} of model {self.model.name}. " 
+            f"Response object from {self.type} of model {self.model}. " 
             f"Request initiated on {self.time_requested} and took {self.time_taken} to complete.\n"
             f"Content Summary: {str(self.content)[:100]}..."
         )
